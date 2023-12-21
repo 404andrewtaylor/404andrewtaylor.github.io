@@ -1,4 +1,37 @@
 body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+header {
+    text-align: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+nav {
+    margin-top: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    margin: 0 10px;
+    color: #333;
+}
+
+section {
+    margin-top: 20px;
+}
+
+footer {
+    margin-top: 20px;
+    text-align: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+/* Additional styles for the bubble game */
+body {
     margin: 0;
     overflow: hidden; /* Hide scrollbars */
 }
