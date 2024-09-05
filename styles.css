@@ -56,25 +56,13 @@ main > h1 {
 }
 
 .accordion {
-	--circle-x: 1.8rem;
-	--circle-y: 0;
-	--circle-r: 200%;
-	--circle-bg: #fff;
 	color: #000;
-
-	background-color: var(--circle-bg);
+	background-color: #fff;
 	max-width: 100ch;
 	margin-bottom: 1rem;
 	border-radius: min(8px, 0.5rem);
-
-	display: grid;
-	grid-template-rows: 0fr 0fr;
-	transition-timing-function: var(--slide-ease);
-	transition-duration: 200ms, 200ms, var(--slide-duration);
-	transition-property: opacity, box-shadow, grid-template-rows;
-	transition-delay: 0ms, 0ms, var(--slide-delay);
-	box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-	opacity: 0.9;
+	border: 1px solid rgba(255, 255, 255, 0.8);
+	overflow: hidden;
 }
 
 .accordion:not(:target):hover {
@@ -86,20 +74,6 @@ main > h1 {
 	box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.3);
 }
 
-.accordion,
-.content {
-	overflow: hidden;
-}
-
-.accordion:target {
-	--d: 90deg;
-	grid-template-rows: 0fr 1fr;
-	transition: grid-template-rows var(--slide-ease) var(--slide-duration)
-		var(--slide-delay);
-}
-
-
-
 .wrapper {
 	padding-block: 0 1.05rem;
 	padding-inline: 1.25rem;
@@ -108,6 +82,17 @@ main > h1 {
 .content {
 	font-size: var(--size-accordion-content);
 	line-height: 140%;
+	max-height: 0;
+	padding: 0 1.25rem;
+	overflow: hidden;
+	background-color: #fff;
+	transition: max-height 1.3s ease-out, padding 0.0s ease-out;
+}
+
+.accordion:target .content {
+	max-height: 5000px; /* Updated to handle more content */
+	padding: 1.25rem;
+	transition: max-height 3.3s ease-in, padding 0.0s ease-in;
 }
 
 .content p {
@@ -134,6 +119,7 @@ main :last-child,
 	display: flex;
 	flex-direction: row;
 	place-items: center;
+	cursor: pointer;
 }
 
 .title a::before {
@@ -155,48 +141,6 @@ main :last-child,
 	background-color: currentColor;
 }
 
-.accordion::before,
-.accordion::after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: white; /* Set the initial background color */
-  mix-blend-mode: difference;
-  transform-style: preserve-3d;
-  transition-timing-function: ease-in-out;
-  transition-property: opacity, clip-path, background-color;
-  pointer-events: none;
-  clip-path: circle(var(--r) at var(--circle-x) var(--circle-y));
-  border-radius: inherit;
-  z-index: 4;
-  opacity: 0;
-}
-
-.accordion::before {
-  --r: 0%;
-  transition: opacity 0s, clip-path var(--circle-duration) ease-in-out, background-color var(--circle-duration) ease-in-out;
-}
-
-.accordion:target::before {
-  --r: var(--circle-r);
-  opacity: 1;
-  background-color: black; /* Set the background color for the opened state */
-}
-
-.accordion::after {
-  --r: var(--circle-r);
-  transition: opacity 0s, clip-path var(--circle-duration) ease-in-out, background-color var(--circle-duration) ease-in-out;
-  opacity: 1;
-}
-
-.accordion:target:after {
-  --r: 0%;
-  opacity: 0;
-  background-color: white; /* Set the background color for the closed state */
-}
-
-
 .title a:focus-visible {
 	background-color: hsl(0, 100%, 90%);
 	outline: none;
@@ -206,67 +150,63 @@ main :last-child,
 	background-color: hsl(183, 100%, 93%);
 }
 
-
 a {
-    color: white;
-    text-decoration: none;
-  }
+	color: white;
+	text-decoration: none;
+}
 
-  .header-title {
-    margin-bottom: 20px; /* Adjust the value as needed */
-    display: inline-block;
-  }
-  .btn {
-    background-color: rgb(0, 0, 0);
-    border: none;
-    color: white;
-    padding: 12px 30px;
-    cursor: pointer;
-    font-size: var(--size-accordion-title); /* Use the same font size as the accordion titles */
-    border-radius: min(8px, 0.5rem); /* Use the same border-radius as the accordions */
-    transition: background-color var(--button-hover-duration), color var(--button-hover-duration), transform var(--button-hover-duration);
+.header-title {
+	margin-bottom: 20px;
+	display: inline-block;
+}
 
+.btn {
+	background-color: rgb(0, 0, 0);
+	border: none;
+	color: white;
+	padding: 12px 30px;
+	cursor: pointer;
+	font-size: var(--size-accordion-title);
+	border-radius: min(8px, 0.5rem);
+	transition: background-color var(--button-hover-duration), color var(--button-hover-duration), transform var(--button-hover-duration);
 }
 
 .btn:hover {
-    background-color: rgb(255, 255, 255);
-    color: black;
-    transform: scale(1.05);
+	background-color: rgb(255, 255, 255);
+	color: black;
+	transform: scale(1.05);
 }
 
 .btn:focus-visible {
-    outline: none;
+	outline: none;
 }
 
 .btn:active {
-    transform: scale(0.95);
+	transform: scale(0.95);
 }
 
-
 .header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
 
-  .header-title {
-    margin: 0; /* Remove default margin for h1 */
-  }
+.header-title {
+	margin: 0;
+}
 
-  .social-icons {
-    display: flex;
-    gap: 10px;
-  }
+.social-icons {
+	display: flex;
+	gap: 10px;
+}
 
-  @media screen and (max-width: 600px) {
-    .header-container {
-      flex-direction: column;
-      text-align: center;
-    }
+@media screen and (max-width: 600px) {
+	.header-container {
+		flex-direction: column;
+		text-align: center;
+	}
 
-    .social-icons {
-      margin-top: 10px; /* Add some spacing between icons on smaller screens */
-    }
-    
-  }
-
+	.social-icons {
+		margin-top: 10px;
+	}
+}
